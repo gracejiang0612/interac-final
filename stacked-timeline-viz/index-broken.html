@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working Mother's Time Distribution</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>A Working Mother's Day</h1>
+            <p class="subtitle">Comparing daily time allocation with and without child responsibilities</p>
+        </header>
+
+        <!-- Main visualization container -->
+        <main class="viz-container">
+            <div id="chart-area">
+                <!-- Chart will be rendered here -->
+                <svg id="main-svg"></svg>
+                
+                <!-- Legend -->
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #DE4764;"></div>
+                        <span>Self-care & Personal Time</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #8DA650;"></div>
+                        <span>Work & Professional</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #E6EC9C;"></div>
+                        <span>Child-related Activities</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transform button -->
+            <div class="controls">
+                <button id="transform-btn" class="transform-button">
+                    <span class="btn-text">See Full Time Distribution</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
+
+            <!-- Info panel -->
+            <div class="info-panel">
+                <div class="info-section">
+                    <h3>With Kid</h3>
+                    <div id="with-kid-stats" class="stats"></div>
+                </div>
+                <div class="info-section">
+                    <h3>Without Kid</h3>
+                    <div id="without-kid-stats" class="stats"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Data visualization showing the impact of child-rearing on a working mother's daily schedule</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data-processor.js"></script>
+    <script src="stacked-chart.js"></script>
+    <script src="grid-plot.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

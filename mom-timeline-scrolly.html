@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Working Mother's Day: Timeline Comparison</title>
+    <link rel="stylesheet" href="mom-timeline-scrolly-style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
+    <script src="https://unpkg.com/scrollama@3.2.0/build/scrollama.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>A Working Mother's Day</h1>
+        <p class="subtitle">How does having a child change a working mother's daily schedule?</p>
+
+    </header>
+
+    <!-- Main scrollytelling container -->
+    <main id="scrolly">
+        <!-- Sticky visualization container -->
+        <div class="sticky-container">
+            <div class="viz-container">
+                <!-- Timeline in the center -->
+                <div id="timeline-center">
+                    <div id="current-time">4:00 AM</div>
+                </div>
+                
+                <!-- Left side: With Kid -->
+                <div class="timeline-side left-side">
+                    <h2>With Kid</h2>
+                    <div id="left-viz"></div>
+                    <div id="left-activity" class="activity-note"></div>
+                </div>
+                
+                <!-- Right side: Without Kid -->
+                <div class="timeline-side right-side">
+                    <h2>Without Kid</h2>
+                    <div id="right-viz"></div>
+                    <div id="right-activity" class="activity-note"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll steps -->
+        <div class="scroll-container">
+            <!-- Introduction step -->
+            <div class="step intro-step" data-step="intro">
+                <div class="step-content">
+                    <h3>Meet Melinda</h3>
+                    <p>A working mother who starts her day at 4:00 AM. Let's explore how her schedule differs when caring for her son versus when she doesn't have that responsibility.</p>
+                </div>
+            </div>
+
+            <!-- Dynamic steps will be inserted here by JavaScript -->
+            <div id="dynamic-steps"></div>
+
+            <!-- Complete timeline step -->
+            <div class="step complete-step" data-step="complete">
+                <div class="step-content">
+                    <h3>Complete Timeline</h3>
+                    <p>Here's Melinda's complete day side by side.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Data visualization showing the daily schedule comparison of a working mother</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="mom-timeline-scrolly-data.js"></script>
+    <script src="mom-timeline-scrolly-viz.js"></script>
+    <script src="mom-timeline-scrolly-scroll.js"></script>
+</body>
+</html>

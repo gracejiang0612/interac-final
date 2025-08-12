@@ -1,0 +1,333 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f8f9fa;
+    color: #333;
+}
+
+.header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Scrollytelling container */
+#scrolly {
+    position: relative;
+}
+
+/* Sticky visualization container */
+.sticky-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.viz-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+}
+
+/* Timeline center */
+#timeline-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px 30px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 3px solid #333;
+}
+
+#current-time {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    min-width: 150px;
+}
+
+/* Timeline sides */
+.timeline-side {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+}
+
+.timeline-side h2 {
+    position: absolute;
+    top: 40px;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #333;
+    z-index: 10;
+}
+
+.left-side {
+    background: transparent;
+}
+
+.right-side {
+    background: transparent;
+}
+
+/* Visualization containers */
+#left-viz, #right-viz {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+/* Activity notes */
+.activity-note {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    text-align: center;
+    font-size: 1.1rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+}
+
+.activity-note.active {
+    opacity: 1;
+}
+
+/* Scroll container */
+.scroll-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Steps */
+.step {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.3;
+    transition: opacity 0.5s ease;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step-content {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    text-align: center;
+    margin: 0 20px;
+}
+
+.step-content h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.step-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+}
+
+/* Intro and final steps */
+.intro-step {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+}
+
+.final-step {
+    background: linear-gradient(135deg, rgba(230, 236, 156, 0.2), rgba(141, 166, 80, 0.2));
+}
+
+/* Time block styles */
+.time-block {
+    transition: all 0.8s ease;
+    cursor: pointer;
+}
+
+.time-block:hover {
+    opacity: 0.8;
+}
+
+/* Category colors */
+.category-self {
+    fill: #DE4764;
+}
+
+.category-work {
+    fill: #8DA650;
+}
+
+.category-kid {
+    fill: #E6EC9C;
+}
+
+/* Grid plot styles */
+.grid-cell {
+    stroke: #fff;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.grid-cell:hover {
+    stroke-width: 3;
+    opacity: 0.8;
+}
+
+/* Axis styles */
+.axis {
+    font-size: 12px;
+}
+
+.axis-label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Legend */
+.legend {
+    font-size: 14px;
+}
+
+.legend-item {
+    cursor: pointer;
+}
+
+.legend-item:hover {
+    opacity: 0.7;
+}
+
+/* Footer */
+.footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 100px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .timeline-side {
+        padding: 20px;
+    }
+    
+    .timeline-side h2 {
+        font-size: 1.5rem;
+        top: 20px;
+    }
+    
+    #current-time {
+        font-size: 1.8rem;
+        min-width: 120px;
+    }
+    
+    #timeline-center {
+        padding: 15px 20px;
+    }
+    
+    .step-content {
+        padding: 30px 25px;
+        margin: 0 15px;
+    }
+    
+    .step-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .activity-note {
+        font-size: 1rem;
+        padding: 15px 20px;
+        max-width: 90%;
+    }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.animate-in {
+    animation: fadeIn 0.8s ease;
+}
+
+.animate-slide {
+    animation: slideIn 0.8s ease;
+}

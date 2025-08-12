@@ -1,0 +1,286 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: white;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+}
+
+/* Chart container */
+.wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    position: relative;
+}
+
+/* Chart styles */
+.line {
+    fill: none;
+    stroke-width: 3;
+    transition: stroke-width 0.3s ease;
+}
+
+.line.under6 {
+    stroke: #e74c3c;
+}
+
+.line.over6 {
+    stroke: #3498db;
+}
+
+.line:hover {
+    stroke-width: 4;
+}
+
+/* Grid lines */
+.grid line {
+    stroke: #e0e0e0;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.grid path {
+    stroke-width: 0;
+}
+
+/* Axes */
+.axis {
+    font-size: 12px;
+    color: #666;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #999;
+    shape-rendering: crispEdges;
+}
+
+.y-axis-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 14px;
+    font-weight: 600;
+    fill: #333;
+}
+
+.x-axis-label {
+    font-size: 14px;
+    font-weight: 600;
+    fill: #333;
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    min-width: 250px;
+}
+
+.tooltip-year {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 6px;
+}
+
+.tooltip-line {
+    margin-bottom: 4px;
+}
+
+.tooltip-line:last-child {
+    margin-bottom: 0;
+}
+
+/* Interactive elements */
+.listening-rect {
+    fill: transparent;
+    cursor: crosshair;
+}
+
+.tooltip-circle {
+    transition: all 0.2s ease;
+}
+
+.tooltip-circle.under6 {
+    fill: #e74c3c;
+    stroke: white;
+}
+
+.tooltip-circle.over6 {
+    fill: #3498db;
+    stroke: white;
+}
+
+/* Legend */
+.legend {
+    max-width: 1000px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.legend-color {
+    width: 20px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.legend-color.under6 {
+    background: #e74c3c;
+}
+
+.legend-color.over6 {
+    background: #3498db;
+}
+
+/* Insights section */
+.insights {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.insights h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.insights ul {
+    list-style: none;
+    padding: 0;
+}
+
+.insights li {
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+    color: #555;
+    line-height: 1.5;
+}
+
+.insights li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #3498db;
+    font-weight: bold;
+}
+
+/* Percentage formatting */
+.percentage {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .wrapper {
+        padding: 20px;
+    }
+    
+    .legend {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .insights {
+        padding: 20px;
+    }
+    
+    .tooltip {
+        min-width: 200px;
+        font-size: 12px;
+    }
+}
+
+/* Animation for chart loading */
+@keyframes drawLine {
+    from {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+    }
+    to {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
+    }
+}
+
+.line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+    animation: drawLine 2s ease-in-out;
+}
+
+/* Hover effects */
+.wrapper:hover .line {
+    opacity: 0.7;
+}
+
+.wrapper:hover .line:hover {
+    opacity: 1;
+}

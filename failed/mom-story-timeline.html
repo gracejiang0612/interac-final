@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working Mom Timeline: A Day in the Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mom-story-style.css">
+</head>
+<body>
+    <!-- Intro Section -->
+    <section id="intro">
+        <div class="intro-content">
+            <h1>A Working Mother's Day</h1>
+            <h2>Two Timelines, One Story</h2>
+            <p>Follow Melinda through her daily schedule comparing her life as a working mother with what it might look like without children.</p>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color self"></div>
+                    <span>Personal Time</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color kid"></div>
+                    <span>Child Care</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color work"></div>
+                    <span>Work</span>
+                </div>
+            </div>
+            
+            <div class="scroll-hint">
+                <p>Scroll to begin the story</p>
+                <div class="scroll-arrow">↓</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Timeline Story -->
+    <main id="story-container">
+        <!-- Timeline visualization will be populated by JavaScript -->
+    </main>
+
+    <!-- Final Grid Section -->
+    <section id="final-grid">
+        <div class="grid-content">
+            <h2>The Complete Picture</h2>
+            <p>How time is distributed throughout the day</p>
+            <div id="grid-container"></div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="scrollytelling-scrollama-d3-demo-main/src/d3.5.9.1.min.js"></script>
+    <script src="mom-story-data.js"></script>
+    <script src="mom-story-visualization.js"></script>
+    <script src="mom-story-scroll.js"></script>
+</body>
+</html>

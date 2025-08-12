@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working Mother's Time Distribution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+        
+        .viz-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-area {
+            display: flex;
+            justify-content: space-around;
+            align-items: end;
+            margin: 60px 0;
+            height: 400px;
+        }
+        
+        .column-container {
+            text-align: center;
+            position: relative;
+        }
+        
+        .column-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        .column {
+            width: 120px;
+            position: relative;
+            border-radius: 8px 8px 0 0;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .column:hover {
+            transform: scale(1.05);
+        }
+        
+        .with-kid-column {
+            height: 320px;
+            background: linear-gradient(to top, 
+                #DE4764 0%, #DE4764 29%,     /* Sleep: 7h */
+                #8DA650 29%, #8DA650 62%,    /* Work: 8h */
+                #E6EC9C 62%, #E6EC9C 83%,    /* Kid: 5h */
+                #DE4764 83%, #DE4764 100%    /* Self: 4h */
+            );
+        }
+        
+        .without-kid-column {
+            height: 320px;
+            background: linear-gradient(to top, 
+                #DE4764 0%, #DE4764 29%,     /* Sleep: 7h */
+                #8DA650 29%, #8DA650 79%,    /* Work: 12h */
+                #DE4764 79%, #DE4764 100%    /* Self: 5h */
+            );
+        }
+        
+        .total-label {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .transform-btn {
+            display: block;
+            margin: 40px auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .transform-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .grid-view {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .grid-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+        }
+        
+        .grid-timeline {
+            text-align: center;
+        }
+        
+        .grid-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 12px);
+            gap: 1px;
+            margin: 0 auto;
+            background: #ddd;
+            padding: 2px;
+            border-radius: 4px;
+        }
+        
+        .grid-cell {
+            width: 12px;
+            height: 12px;
+            border-radius: 1px;
+        }
+        
+        .stats-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stats-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .stats {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .stat-label {
+            color: #666;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-area {
+                height: 300px;
+                margin: 40px 0;
+            }
+            
+            .column {
+                width: 100px;
+            }
+            
+            .with-kid-column, .without-kid-column {
+                height: 250px;
+            }
+            
+            .stats-panel {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>A Working Mother's Day</h1>
+            <p class="subtitle">Comparing daily time allocation with and without child responsibilities</p>
+        </header>
+
+        <main class="viz-container">
+            <div id="chart-view">
+                <div class="chart-area">
+                    <div class="column-container">
+                        <h3 class="column-title">With Kid</h3>
+                        <div class="column with-kid-column">
+                            <div class="total-label">24h total</div>
+                        </div>
+                    </div>
+                    
+                    <div class="column-container">
+                        <h3 class="column-title">Without Kid</h3>
+                        <div class="column without-kid-column">
+                            <div class="total-label">24h total</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #DE4764;"></div>
+                        <span>Self-care & Personal Time</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #8DA650;"></div>
+                        <span>Work & Professional</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #E6EC9C;"></div>
+                        <span>Child-related Activities</span>
+                    </div>
+                </div>
+
+                <button class="transform-btn" onclick="toggleView()">
+                    See Full Time Distribution →
+                </button>
+            </div>
+
+            <div id="grid-view" class="grid-view">
+                <h3 style="margin-bottom: 20px;">Detailed 24-Hour Breakdown</h3>
+                <p style="color: #666; margin-bottom: 30px;">Each square represents 15 minutes</p>
+                
+                <div class="grid-container">
+                    <div class="grid-timeline">
+                        <div class="grid-title">With Kid</div>
+                        <div class="grid" id="with-kid-grid"></div>
+                    </div>
+                    
+                    <div class="grid-timeline">
+                        <div class="grid-title">Without Kid</div>
+                        <div class="grid" id="without-kid-grid"></div>
+                    </div>
+                </div>
+
+                <button class="transform-btn" onclick="toggleView()">
+                    ← Back to Summary
+                </button>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stats-section">
+                    <h3>With Kid</h3>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Sleep:</span>
+                            <span class="stat-value">7h (29%)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Work:</span>
+                            <span class="stat-value">8h (33%)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Child Care:</span>
+                            <span class="stat-value">5h (21%)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Personal:</span>
+                            <span class="stat-value">4h (17%)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <h3>Without Kid</h3>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Sleep:</span>
+                            <span class="stat-value">7h (29%)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Work:</span>
+                            <span class="stat-value">12h (50%)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Child Care:</span>
+                            <span class="stat-value">0h (0%)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Personal:</span>
+                            <span class="stat-value">5h (21%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Data visualization showing the impact of child-rearing on a working mother's daily schedule</p>
+        </footer>
+    </div>
+
+    <script>
+        let isGridView = false;
+
+        function toggleView() {
+            const chartView = document.getElementById('chart-view');
+            const gridView = document.getElementById('grid-view');
+            
+            if (isGridView) {
+                chartView.style.display = 'block';
+                gridView.style.display = 'none';
+                isGridView = false;
+            } else {
+                chartView.style.display = 'none';
+                gridView.style.display = 'block';
+                generateGrids();
+                isGridView = true;
+            }
+        }
+
+        function generateGrids() {
+            generateGrid('with-kid-grid', [
+                // Sleep: 7h (28 slots)
+                ...Array(28).fill('#DE4764'),
+                // Work: 8h (32 slots)
+                ...Array(32).fill('#8DA650'),
+                // Kid: 5h (20 slots)
+                ...Array(20).fill('#E6EC9C'),
+                // Self: 4h (16 slots)
+                ...Array(16).fill('#DE4764')
+            ]);
+            
+            generateGrid('without-kid-grid', [
+                // Sleep: 7h (28 slots)
+                ...Array(28).fill('#DE4764'),
+                // Work: 12h (48 slots)
+                ...Array(48).fill('#8DA650'),
+                // Self: 5h (20 slots)
+                ...Array(20).fill('#DE4764')
+            ]);
+        }
+
+        function generateGrid(containerId, colors) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            colors.forEach(color => {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.style.backgroundColor = color;
+                cell.title = '15 minutes';
+                container.appendChild(cell);
+            });
+        }
+    </script>
+</body>
+</html>

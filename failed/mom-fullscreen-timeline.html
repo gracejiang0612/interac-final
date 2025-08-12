@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A Working Mother's Day - Interactive Timeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mom-fullscreen-style.css">
+</head>
+<body>
+    <div id="intro-section">
+        <div class="intro-content">
+            <h1>A Working Mother's Day</h1>
+            <h2>Every Activity Block Tells a Story</h2>
+            <p>Follow Melinda through her daily schedule from 4AM to midnight, comparing her life as a working mother with what it might look like without children.</p>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color self"></div>
+                    <span>Personal Time</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color kid"></div>
+                    <span>Child Care</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color work"></div>
+                    <span>Work</span>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <p>Scroll to begin</p>
+                <div class="arrow">↓</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="timeline-container">
+        <div class="time-display">
+            <span id="current-time">4:00 AM</span>
+        </div>
+        
+        <div class="main-content">
+            <div class="left-side">
+                <div class="side-header">With Children</div>
+                <div class="activity-description" id="left-activity">
+                    Starting her day early for personal time
+                </div>
+                <div class="timeline-column" id="left-timeline"></div>
+            </div>
+            
+            <div class="center-timeline">
+                <div class="time-axis" id="time-axis"></div>
+            </div>
+            
+            <div class="right-side">
+                <div class="side-header">Without Children</div>
+                <div class="activity-description" id="right-activity">
+                    Still sleeping peacefully
+                </div>
+                <div class="timeline-column" id="right-timeline"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="grid-transition-section">
+        <div class="grid-transition-content">
+            <h2>The Complete Day Comparison</h2>
+            <p>Now let's see the full 20-hour day (4AM to midnight) transformed into a comparison grid</p>
+            <div id="grid-visualization-container">
+                <div class="grid-section">
+                    <h3>With Children</h3>
+                    <div id="left-grid"></div>
+                </div>
+                <div class="grid-section">
+                    <h3>Without Children</h3>
+                    <div id="right-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="scrollytelling-scrollama-d3-demo-main/src/d3.5.9.1.min.js"></script>
+    <script src="scrollytelling-scrollama-d3-demo-main/src/intersection-observer.js"></script>
+    <script src="scrollytelling-scrollama-d3-demo-main/src/stickyfill.min.js"></script>
+    <script src="scrollytelling-scrollama-d3-demo-main/src/scrollama.min.js"></script>
+    <script src="complete_timeline_data.js"></script>
+    <script src="mom-fullscreen-data.js"></script>
+    <script src="mom-fullscreen-d3-final.js"></script>
+    <script src="mom-fullscreen-scrollama-final.js"></script>
+</body>
+</html>

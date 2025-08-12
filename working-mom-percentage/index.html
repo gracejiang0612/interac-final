@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./styles.css">
+        <title>Working Mother Employment Trends (2015-2023)</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Working Mother Employment Trends</h1>
+            <p class="subtitle">Percentage of mothers in the workforce by age of children (2015-2023)</p>
+        </div>
+
+        <div id="wrapper" class="wrapper">
+            <div id="tooltip" class="tooltip">
+                <div class="tooltip-year">
+                    <span id="year"></span>
+                </div>
+                <div class="tooltip-data">
+                    <div class="tooltip-line">
+                        Mothers with children under 6: <span id="under6-percentage"></span>
+                    </div>
+                    <div class="tooltip-line">
+                        Mothers with children 6-17: <span id="over6-percentage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color under6"></div>
+                <span>Mothers with children under 6 years</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color over6"></div>
+                <span>Mothers with children 6-17 years</span>
+            </div>
+        </div>
+
+
+
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="./working-mom-chart.js"></script>
+    </body>
+</html>

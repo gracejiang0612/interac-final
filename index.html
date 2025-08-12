@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Working Mother's Journey: Data Stories</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="tab.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="mom-timeline-scrolly-style.css">
+    <link rel="stylesheet" href="working-mom-percentage/styles.css">
+    
+    <!-- D3.js and Scrollama -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer@0.12.0/intersection-observer.js"></script>
+    <script src="https://unpkg.com/scrollama@3.2.0/build/scrollama.min.js"></script>
+    
+    <style>
+        /* Newspaper-Style Typography (following cursor rules) */
+        
+        /* Headlines */
+        h1, .header h1 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 3.2em;
+            font-weight: normal;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #000;
+        }
+        
+        /* Deck (Subtitle) */
+        .subtitle, .lead {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.4em;
+            font-weight: 300;
+            color: #444;
+            line-height: 1.4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        /* Byline */
+        .byline {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            color: #888;
+            margin: 30px auto 50px auto;
+            padding: 0 60px;
+            max-width: 800px;
+            text-align: left;
+        }
+        
+        .byline a {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .byline a:hover {
+            color: #1a0dab;
+            text-decoration: underline;
+        }
+        
+        /* Publish Date */
+        .publish-date {
+            font-family: Arial, sans-serif;
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        /* Main Paragraphs */
+        .story-section {
+            max-width: 800px;
+            margin: 40px auto 30px auto;
+            padding: 0 60px;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #000;
+        }
+        
+        .story-section p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #000;
+        }
+        
+        .story-section h2 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 3.2em;
+            font-weight: normal;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #000;
+        }
+        
+        .story-section h3 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.4em;
+            font-weight: 300;
+            color: #444;
+            line-height: 1.4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        /* Image Captions */
+        .caption {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 0.9em;
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+        
+        /* Author Bio */
+        .author-bio {
+            font-family: Arial, sans-serif;
+            font-size: 0.95em;
+            color: #666;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .author-bio a {
+            color: #1a0dab;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .author-bio a:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+        
+        /* General Links */
+        a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+        
+        /* Section Breaks */
+        .section-break {
+            text-align: center;
+            color: #999;
+            font-size: 1.2em;
+            letter-spacing: 0.5em;
+            margin: 40px 0;
+        }
+        
+        .section-break::before {
+            content: "***";
+        }
+        
+        /* Visualization sections */
+        .viz-break {
+            background: white;
+            padding: 80px 0;
+            margin: 60px 0;
+        }
+        
+        .viz-intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            padding: 0 20px;
+        }
+        
+        .viz-intro h3 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.4em;
+            font-weight: 300;
+            color: #444;
+            line-height: 1.4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .viz-intro p {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 0.9em;
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+        
+        /* Header styling */
+        .header {
+            background: linear-gradient(white);
+            color: #000;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        
+        /* Footer styling */
+        .footer {
+            font-family: Arial, sans-serif;
+            font-size: 0.95em;
+            color: #666;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        /* Smooth transitions between sections */
+        .section-transition {
+            background: linear-gradient(to bottom, #f8f9fa, white);
+            height: 100px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1, .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .subtitle, .lead {
+                font-size: 1.2em;
+            }
+            
+            .byline {
+                font-size: 0.9em;
+                padding: 0 30px;
+            }
+            
+            .publish-date {
+                font-size: 0.7em;
+            }
+            
+            .story-section {
+                padding: 0 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PART 1: OPENING SCROLLYTELLING VISUALIZATION -->
+    <header class="header">
+        <h1>Let's Walk Into a Typical Day as a Working Mom</h1>
+        <p class="subtitle">An interactive visualization of a working mother's day.</p>
+        
+        <div class="byline">
+            By <a href="https://gracejiang0612.github.io/">Grace Jiang</a>
+            <div class="publish-date">Published August 12, 2025</div>
+        </div>
+    </header>
+
+    <!-- Timeline Scrollytelling -->
+    <main id="scrolly">
+        <!-- Sticky visualization container -->
+        <div class="sticky-container">
+            <div class="viz-container">
+                <!-- Timeline in the center -->
+                <div id="timeline-center">
+                    <div id="current-time">4:00 AM</div>
+                </div>
+                
+                <!-- Left side: With Kid -->
+                <div class="timeline-side left-side">
+                    <h2>With Kid</h2>
+                    <div id="left-viz"></div>
+                    <div id="left-activity" class="activity-note"></div>
+                </div>
+                
+                <!-- Right side: Without Kid -->
+                <div class="timeline-side right-side">
+                    <h2>Without Kid</h2>
+                    <div id="right-viz"></div>
+                    <div id="right-activity" class="activity-note"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll steps -->
+        <div class="scroll-container">
+            <!-- Introduction step -->
+            <div class="step intro-step" data-step="intro">
+                <div class="step-content">
+                    <h3>Meet Melinda</h3>
+                    <p>A working mother who starts her day at 4:00 AM. Let's explore how her schedule differs when caring for her son versus when she doesn't have that responsibility.</p>
+                </div>
+            </div>
+
+            <!-- Dynamic steps will be inserted here by JavaScript -->
+            <div id="dynamic-steps"></div>
+
+            <!-- Complete timeline step -->
+            <div class="step complete-step" data-step="complete">
+                <div class="step-content">
+                    <h3>Complete Timeline</h3>
+                    <p>Here's Melinda's complete day side by side.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Transition -->
+    <div class="section-transition"></div>
+
+    <!-- PART 2: MAIN STORY CONTENT -->
+    <section class="story-section">
+        <p>
+            The alarm goes off at 4:30 a.m. in Minnesota. Melinda Pearson, a union organizer, a mother of a 12-year-old, starts her day in darkness, heading to a 5 a.m. workout. At the same time, in another state, Claire Immega, a director at a law firm and mother of two, carves out precious personal time before her household awakens.
+        </p>
+        
+        <p>
+            &ldquo;The problem with your timeline is that often my day is very&hellip; permeable,&rdquo; Immega said. &ldquo;A lot of times, all the time, I&rsquo;m multitasking. So I would be, like, sending parenting [messages], or doing my makeup and on a call.&rdquo;
+        </p>
+        
+        <p>
+            Two working mothers, two different careers, both shaped by the demands of parenting. Even with supportive husbands, both say they are the &ldquo;default parent,&rdquo; responsible for emergencies and daily decisions. Their personal time comes in fleeting moments, found between the pull of work and home.
+        </p>
+        
+        <p>
+            In the United States, more than 26 million mothers work outside the home. About 82 percent of mothers with children under 18 are in the labor force, according to 2023 U.S. Census Bureau data.
+        </p>
+    </section>
+
+    <!-- WORKING MOM PERCENTAGE VISUALIZATION -->
+    <div class="viz-break">
+        <div class="viz-intro">
+            <h3>Working Mother Employment Trends</h3>
+            <p>Percentage of mothers in the workforce by age of children (2015-2023)</p>
+        </div>
+        
+        <div id="percentage-wrapper" class="wrapper">
+            <div id="percentage-tooltip" class="tooltip">
+                <div class="tooltip-year">
+                    <span id="percentage-year"></span>
+                </div>
+                <div class="tooltip-data">
+                    <div class="tooltip-line">
+                        Mothers with children under 6: <span id="under6-percentage"></span>
+                    </div>
+                    <div class="tooltip-line">
+                        Mothers with children 6-17: <span id="over6-percentage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <p class="caption">Source: U.S. Census Bureau Data; Note: The data skips 2020 since regular 1-year ACS data is not available for that year</p>
+    </div>
+
+    <!-- CONTINUATION OF STORY -->
+    <section class="story-section">
+        <p>
+            After returning from maternity leave, Immega stepped away from her litigation partner role and became a law firm executive. &ldquo;I found trial work with children to be really hard for me... I felt like I found it really hard when I was immersed at work to be present with my kids when I got home.&rdquo; She accepted the trade-off: &ldquo;I will not make the kind of money I could have made, but I felt like the devil&rsquo;s bargain&hellip; I just didn&rsquo;t want to do anymore. I wanted to be able to be present for my family.&rdquo;
+        </p>
+        
+        <p>
+            Pearson went the opposite direction. &ldquo;I actually became a little more driven in my career after becoming a parent, because I really wanted to make sure I was raising a son who had a strong woman, a fresh woman as a mother.&rdquo;
+        </p>
+        
+        <p>
+            When asked who handles childcare emergencies during work hours, Immega answers simply: &ldquo;Me.&rdquo; Pearson points to the gendered expectations behind that. &ldquo;Nobody looks at my husband the same way they look at me&hellip; No one asks him, &lsquo;How do you feel about being away from your son so much?&rsquo;&rdquo;
+        </p>
+        
+        <p>
+            &ldquo;It is very hard to work like you don&rsquo;t have a child and then a parent like you don&rsquo;t work,&rdquo; Pearson said. &ldquo;Those are sort of the expectations, particularly for American moms.&rdquo; Immega adds, &ldquo;The biggest professional challenge is&hellip; not having the same scope and freedom to pour myself into work. There&rsquo;s so little flexibility in my personal responsibilities that work can&rsquo;t grow very much&hellip; I can&rsquo;t give a lot more than I do to work easily.&rdquo;
+        </p>
+        
+        <p>
+            The financial pressure is constant. &ldquo;We were paying $14,000 a year for daycare back in 2014,&rdquo; Pearson said. &ldquo;We couldn&rsquo;t afford daycare for more than one kid at a time.&rdquo; Now, her son&rsquo;s drum lessons cost $400 a month, plus the $2,500 drum set. From housing choices to grocery bills, both women said children affect nearly every financial decision.
+        </p>
+        
+        <p>
+            To cope, they have developed personal strategies. Immega uses dinner prep as a reset. &ldquo;For me, like it&rsquo;s a time my kids watch TV before dinner. I cook, and it&rsquo;s this time for myself where I can just&hellip; relax a little bit after work.&rdquo; She also relies on outside help. &ldquo;We outsource a number of things &mdash; gardening, a lot of healthcare &mdash; and that makes a huge difference. I would be really stretched very, very thin&rdquo; without it.
+        </p>
+        
+        <p>
+            &ldquo;I am more work mom as a general rule&hellip; most of my stuff is task oriented,&rdquo; Pearson said. &ldquo;I am not a super fun mom. Like, everything has to be tasky, right?&rdquo;
+        </p>
+    </section>
+
+    <!-- PART 3: CONTINUATION OF STORY -->
+    <section class="story-section">
+        <!-- Story continues after the visualization -->
+    </section>
+
+    <!-- Author Bio and Footer -->
+    <div class="author-bio">
+        <p>
+            interested in my code? Find the story behind the scene.
+        </p>
+        <p style="margin-top: 20px;">
+            
+        </p>
+    </div>
+
+    <!-- SCRIPTS -->
+    <!-- Timeline Scrollytelling Scripts -->
+    <script src="mom-timeline-scrolly-data.js"></script>
+    <script src="mom-timeline-scrolly-viz.js"></script>
+    <script src="mom-timeline-scrolly-scroll.js"></script>
+    
+    <!-- Embedded Working Mom Percentage Chart Script -->
+    <script src="embedded-percentage-chart.js"></script>
+</body>
+</html>
